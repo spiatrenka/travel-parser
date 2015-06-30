@@ -6,45 +6,27 @@ class Parser
     {
         libxml_use_internal_errors(true);
 
-        // Установка конфигурации tidy
-        $config = array(
-            'indent'         => true,
-            'output-xhtml'   => true,
-            'wrap'           => 200);
-
         $agencyLinks = array();
-
-        $encoding = "utf8";
-
-        $this->getAgencyInfo($config, 'http://www.holiday.by/agencies/altatur', $encoding);
-        die();
-
         for($i = 1; $i <= 10; $i++) {
             $innerUrl = $url . "?p=$i";
-            $agencyLinks = $this->getAgencyLinks($config, $innerUrl, $encoding, $agencyLinks);
+            $agencyLinks = $this->getAgencyLinks($innerUrl, $agencyLinks);
         }
 
         var_dump($agencyLinks);
 
         $agencies = array();
         foreach($agencyLinks as $key => $val) {
-            $agencies[] = $this->getAgencyInfo($config, $val, $encoding);
+            $agencies[] = $this->getAgencyInfo($val);
         }
-
-
     }
 
-    private function getAgencyLinks($config, $url, $encoding, $resultLinks = array())
+    private function getAgencyLinks($url, $resultLinks = array())
     {
-        // Tidy
-        $tidy = new tidy;
-        $tidy->parseFile($url, $config, $encoding);
         $doc = new DOMDocument();
-        $doc->loadHTML($tidy->value);
+        $doc->loadHTML(file_get_contents($url));
         $xpath = new DOMXpath($doc);
 
         $agencyLink = $xpath->query("(.//a[@class='title'])[position()>4]");
-        var_dump($agencyLink->length);
         foreach($agencyLink as $key => $element) {
             $resultLinks[] = $element->attributes->getNamedItem('href')->value;
         }
@@ -52,16 +34,14 @@ class Parser
         return $resultLinks;
     }
 
-    private function getAgencyInfo($config, $url, $encoding)
+    private function getAgencyInfo($url)
     {
-        // Tidy
-        $tidy = new tidy;
-        $tidy->parseFile($url, $config, $encoding);
         $doc = new DOMDocument();
-        $doc->loadHTML($tidy->value);
+        $doc->loadHTML(file_get_contents($url));
         $xpath = new DOMXpath($doc);
 
         $name = $xpath->query(".//h1");
-        var_dump(iconv('Windows-1252', 'utf-8', $name->item(0)->nodeValue));
+        echo $name->item(0)->nodeValue;
+        die();
     }
 }
