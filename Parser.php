@@ -85,42 +85,42 @@ class Parser
         foreach ($phones as $val) {
             $phonesWork[] = $val->nodeValue;
         }
-        $agency->phonesWork = implode("\r\n", $phonesWork);
+        $agency->phonesWork = implode(" ", $phonesWork);
 
         $phonesVelcom = array();
         $phones = $xpath->query('.//span[@title="Velcom"]');
         foreach ($phones as $val) {
             $phonesArray[] = $val->nodeValue;
         }
-        $agency->phonesVelcom = implode("\r\n", $phonesVelcom);
+        $agency->phonesVelcom = implode(" ", $phonesVelcom);
 
         $phonesMts = array();
         $phones = $xpath->query('.//span[@title="MTC"]');
         foreach ($phones as $val) {
             $phonesMts[] = $val->nodeValue;
         }
-        $agency->phonesMts = implode("\r\n", $phonesMts);
+        $agency->phonesMts = implode(" ", $phonesMts);
 
         $phonesLife = array();
         $phones = $xpath->query('.//span[@title="life :)"]');
         foreach ($phones as $val) {
             $phonesLife[] = $val->nodeValue;
         }
-        $agency->phonesLife = implode("\r\n", $phonesLife);
+        $agency->phonesLife = implode(" ", $phonesLife);
 
         $icqArray = array();
         $icq = $xpath->query('.//img[@title="ICQ"]/parent::p');
         foreach ($icq as $val) {
             $icqArray[] = $val->nodeValue;
         }
-        $agency->icq = implode("\r\n", $icqArray);
+        $agency->icq = implode(" ", $icqArray);
 
         $skypeArray = array();
         $skype = $xpath->query('.//img[@title="Skype"]/parent::p');
         foreach ($skype as $val) {
             $skypeArray[] = $val->nodeValue;
         }
-        $agency->skype = implode("\r\n", $skypeArray);
+        $agency->skype = implode(" ", $skypeArray);
 
         $needle = 'УНП';
         $text = $xpath->query('.//div[@class="text-block text"]');
