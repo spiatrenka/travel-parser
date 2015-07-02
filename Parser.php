@@ -90,7 +90,7 @@ class Parser
         $phonesVelcom = array();
         $phones = $xpath->query('.//span[@title="Velcom"]');
         foreach ($phones as $val) {
-            $phonesArray[] = $val->nodeValue;
+            $phonesVelcom[] = $val->nodeValue;
         }
         $agency->phonesVelcom = implode(" ", $phonesVelcom);
 
